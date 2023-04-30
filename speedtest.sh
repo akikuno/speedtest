@@ -12,64 +12,51 @@ while getopts :o:d:i: OPT; do
     d) duration="${OPTARG}" ;;
     i) interval=${OPTARG} ;;
     \?)
-        echo "Invalid option: -$OPTARG exiting" >&2
+        echo "ERROR: Invalid option: -$OPTARG exiting" >&2
         exit 1
         ;;
     :)
-        echo "Option -$OPTARG requires an argument" >&2
+        echo "ERORR: Option -$OPTARG requires an argument" >&2
         exit 1
         ;;
     esac
 done
 
+[ -z "${output}" ] && { echo "ERROR: Output file is not specified" >&2 && exit 1; }
 duration=${duration:=1h}
 interval=${interval:=10m}
 
 #######################################
-# Set duration
+# Format time
 #######################################
 
-int_duration=$(echo "${duration}" | sed 's/.$//')
-unit_duration=$(echo "${duration}" | sed 's/^.*\(.$\)/\1/')
+format_time() {
+    local argument=$1
+    local result
+    time=$(echo "${argument}" | sed 's/.$//')
+    unit=$(echo "${argument}" | sed 's/^.*\(.$\)/\1/')
 
-if echo "$unit_duration" | grep -q "^s$"; then
-    :
-elif echo "$unit_duration" | grep -q "^m$"; then
-    int_duration=$((int_duration * 60))
-elif echo "$unit_duration" | grep -q "^h$"; then
-    int_duration=$((int_duration * 60 * 60))
-elif echo "$unit_duration" | grep -q "^d$"; then
-    int_duration=$((int_duration * 60 * 60 * 24))
-elif echo "$unit_duration" | grep -q "^w$"; then
-    int_duration=$((int_duration * 60 * 60 * 24 * 7))
-else
-    echo "ERROR: Invalid duration unit" && exit 1
-fi
+    if echo "$unit" | grep -q "^s$"; then
+        result="$time"
+    elif echo "$unit" | grep -q "^m$"; then
+        result=$((time * 60))
+    elif echo "$unit" | grep -q "^h$"; then
+        result=$((time * 60 * 60))
+    elif echo "$unit" | grep -q "^d$"; then
+        result=$((time * 60 * 60 * 24))
+    elif echo "$unit" | grep -q "^w$"; then
+        result=$((time * 60 * 60 * 24 * 7))
+    else
+        echo "ERROR: Invalid duration unit" && exit 1
+    fi
 
-#######################################
-# Set interval
-#######################################
+    echo "$result"
+}
 
-int_interval=$(echo "${interval}" | sed 's/.$//')
-unit_interval=$(echo "${interval}" | sed 's/^.*\(.$\)/\1/')
+int_duration=$(format_time "${duration}")
+int_interval=$(format_time "${interval}")
 
-if echo "$unit_interval" | grep -q "^s$"; then
-    :
-elif echo "$unit_interval" | grep -q "^m$"; then
-    int_interval=$((int_interval * 60))
-elif echo "$unit_interval" | grep -q "^h$"; then
-    int_interval=$((int_interval * 60 * 60))
-elif echo "$unit_interval" | grep -q "^d$"; then
-    int_interval=$((int_interval * 60 * 60 * 24))
-elif echo "$unit_interval" | grep -q "^w$"; then
-    int_interval=$((int_interval * 60 * 60 * 24 * 7))
-else
-    echo "ERROR: Invalid interval unit" && exit 1
-fi
-
-if [ "$int_interval" -gt "$int_duration" ]; then
-    echo "ERROR: Interval must be less than duration" && exit 1
-fi
+[ "$int_duration" -lt "$int_interval" ] && { echo "ERROR: Duration must be greater than interval" >&2 && exit 1; }
 
 #######################################
 # Main
