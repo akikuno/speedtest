@@ -47,10 +47,10 @@ bash speedtest.sh \
 
 ### Example
 
-Measure the speed of your internet connection every 30 seconds for a total of 3 minutes
+Measure the speed of your internet connection every 1 minites for a total of 10 minutes
 
 ```bash
-bash speedtest.sh -o example/speedtest.csv -i 30s -d 3m
+bash speedtest.sh -o example/speedtest.csv -i 1m -d 10m
 ```
 ## Output
 

@@ -66,19 +66,18 @@ unixtime_current=$(date +%s)
 unixtime_end=$((unixtime_current + int_duration))
 
 mkdir -p "$(dirname "$output")"
-echo "Date,Download(Mbit/s),Upload(Mbit/s)" >"$output"
+echo "Date,Ping (ms),Download (Mbit/s),Upload (Mbit/s)" >"$output"
 
 while [ "$unixtime_current" -lt "$unixtime_end" ]; do
     now=$(date "+%Y-%m-%d %H:%M:%S")
     unixtime_speedtest=$(date +%s)
     speed=$(speedtest-cli --secure --simple --timeout 5 2>/dev/null)
     if [ -z "$speed" ]; then
-        echo "${now},0,0" >>"$output"
+        echo "${now},0,0,0" >>"$output"
     else
         echo "$speed" |
-            sed 1d |
             cut -d " " -f 2 |
-            paste - - |
+            paste - - - |
             tr "\t" "," |
             sed "s|^|${now},|" >>"$output"
     fi
