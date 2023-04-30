@@ -31,15 +31,18 @@ conda install -c conda-forge speedtest-cli
 ## Usage
 
 ```bash
-bash speedtest.sh -o [output file] -d [duration of the whole measurement] -i [interval of the each measurement]
+bash speedtest.sh \
+    -o [output file] \
+    -i [interval of the each measurement] \
+    -d [duration of the whole measurement]
 ```
 
 - `-o`: Name of the outout CSV file
 - `-d`: Duration of the whole measurement (default: `1h`)
-    - `integer` + `units` (`s`,`m`,`h`,`d`,`w`)
+    - **`integer` + `units` (`s`,`m`,`h`,`d`,`w`)**
     - e.g: `6h` means the entire measurement period is 6 hours
 - `-i`: Interval of the each measurement (default: `10m`)
-    - `integer` + `units` (`s`,`m`,`h`,`d`,`w`)
+    - **`integer` + `units` (`s`,`m`,`h`,`d`,`w`)**
     - e.g: `10m` means that the individual measuring points are 10 minites apart
 
 ### Example
@@ -47,7 +50,7 @@ bash speedtest.sh -o [output file] -d [duration of the whole measurement] -i [in
 Measure the speed of your internet connection every 30 seconds for a total of 3 minutes
 
 ```bash
-bash speedtest.sh -o example/speedtest.csv -d 3m -i 30s
+bash speedtest.sh -o example/speedtest.csv -i 30s -d 3m
 ```
 ## Output
 
