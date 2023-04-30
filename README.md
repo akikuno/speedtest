@@ -1,20 +1,9 @@
-# `speedtest.sh`: Script to run WiFi speed test
+# `speedtest.sh`: record the speed of the internet connection
 
 ## Requirements
 
 - `bash`
 - [`speedtest-cli`](https://github.com/sivel/speedtest-cli)
-
-To install `speedtest-cli`, run:
-
-```bash
-pip install speedtest-cli
-```
-or
-
-```bash
-conda install -c conda-forge speedtest-cli
-```
 
 ## Installation
 
@@ -26,6 +15,17 @@ or
 
 ```bash
 curl -O https://raw.githubusercontent.com/akikuno/speedtest/main/speedtest.sh
+```
+
+To install `speedtest-cli`, run:
+
+```bash
+pip install speedtest-cli
+```
+or
+
+```bash
+conda install -c conda-forge speedtest-cli
 ```
 
 ## Usage
@@ -44,12 +44,14 @@ bash speedtest.sh -o [output file] -d [duration of the whole measurement] -i [in
 
 ### Example
 
+Measure the speed of your internet connection every 30 seconds for a total of 3 minutes
+
 ```bash
 bash speedtest.sh -o example/speedtest.csv -d 3m -i 30s
 ```
 ## Output
 
-### [`example/speedtest.csv`](https://github.com/akikuno/speedtest/blob/main/example/speedtest.csv)
+ [`example/speedtest.csv`](https://github.com/akikuno/speedtest/blob/main/example/speedtest.csv)
 
 | Date                | Download(Mbit/s) | Upload(Mbit/s) |
 | ------------------- | ---------------- | -------------- |
