@@ -7,6 +7,7 @@
 
 - `bash`
 - [`speedtest-cli`](https://github.com/sivel/speedtest-cli)
+- `R` and `tidyverse` for `plot_speedtest.R`
 
 To install `speedtest-cli`, run:
 
@@ -19,7 +20,15 @@ or
 conda install -c conda-forge speedtest-cli
 ```
 
+To install `R` and `tidyverse`, run:
+
+```bash
+conda install -c conda-forge r-base r-essentials
+```
+
 ## Usage
+
+### `speedtest.sh`
 
 To record WiFi Down/Up speed, run `speedtest.sh`.
 
@@ -35,6 +44,14 @@ bash speedtest.sh -o [output file] -d [duration of the whole measurement] -i [in
     - `integer` + `units` (`s`,`m`,`h`,`d`,`w`)
     - e.g: `10m` means that the individual measuring points are 10 minites apart
 
+#### Example
+
+```bash
+bash speedtest.sh -o example/speedtest.csv -d 2m -i 30s
+```
+
+### `plot_speedtest.R`
+
 To plot WiFi Down/Up speed, run `plot_speedtest.R`.
 
 ```bash
@@ -44,10 +61,9 @@ Rscript --vanilla plot_speedtest.R [input] [output]
 - `input`: CSV of WiFi speed recorded by `speedtest.sh`
 - `output`: Image of time series line graph
 
-### Example
+#### Example
 
 ```bash
-bash speedtest.sh -o example/speedtest.csv -d 2m -i 30s
 Rscript --vanilla plot_speedtest.R example/speedtest.csv example/speedtest.png
 ```
 
